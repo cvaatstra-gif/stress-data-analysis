@@ -55,13 +55,12 @@ bp_vas_clean <- map_dfr(
   select(where(~ !all(is.na(.))))
 
 
+
 bp_vas_clean <- bp_vas_clean %>%
-  mutate(across(everything(), ~ na_if(as.numeric(.), 999)))
-
-
+  mutate(across(-ID, ~ na_if(., 999)))
 
 # ✅ 1. Zeitpunkte definieren
-zeitpunkte <- c("Baseline", "PostTSM", "Enc1", "PostTSST", "Interview", "Arithm", "Enc2", "PostDMS")
+zeitpunkte <- c("Baseline", "PostTSM", "PostTSST", "Interview", "Enc1", "Arithm", "Enc2", "PostDMS")
 
 # ✅ 2. Für jeden Zeitpunkt: Systole/Diastole-Paare überprüfen und ggf. tauschen
 for (zeit in zeitpunkte) {
@@ -84,58 +83,30 @@ for (zeit in zeitpunkte) {
 }
 
 
+# Mittelwerte für Pulse, Systole und Diastole berechnen
+messungen <- c("Pulse", "Sys", "Dia")
+for (zeit in zeitpunkte) {
+  for (mess in messungen) {
+    cols <- paste0(zeit, "_", mess, "_", 1:2)
+    existing <- intersect(names(bp_vas_clean), cols)
+    if (length(existing) > 0) {
+      bp_vas_clean[[paste(mess, zeit, sep = "_")]] <-
+        rowMeans(bp_vas_clean[existing], na.rm = TRUE)
+    }
+  }
+}
 
 # Basline zusammen mittelwert und Post TSST, wenn nur ein wert vorliegt so lassen, wenn zwei vorliegen mittelwert
 
-bp_vas_clean <- bp_vas_clean %>%
-  mutate(
-    # Baseline
-    Pulse_Baseline = rowMeans(select(., Baseline_Pulse_1, Baseline_Pulse_2), na.rm = TRUE),
-    Sys_Baseline   = rowMeans(select(., Baseline_Sys_1, Baseline_Sys_2), na.rm = TRUE),
-    Dia_Baseline   = rowMeans(select(., Baseline_Dia_1, Baseline_Dia_2), na.rm = TRUE),
-    
-    # Post-TSM
-    Pulse_PostTSM = rowMeans(select(., PostTSM_Pulse_1, PostTSM_Pulse_2), na.rm = TRUE),
-    Sys_PostTSM   = rowMeans(select(., PostTSM_Sys_1, PostTSM_Sys_2), na.rm = TRUE),
-    Dia_PostTSM   = rowMeans(select(., PostTSM_Dia_1, PostTSM_Dia_2), na.rm = TRUE),
-    
-    # Post-TSST
-    Pulse_PostTSST = rowMeans(select(., PostTSST_Pulse_1, PostTSST_Pulse_2), na.rm = TRUE),
-    Sys_PostTSST   = rowMeans(select(., PostTSST_Sys_1, PostTSST_Sys_2), na.rm = TRUE),
-    Dia_PostTSST   = rowMeans(select(., PostTSST_Dia_1, PostTSST_Dia_2), na.rm = TRUE),
-    
-    # Interview
-    Pulse_Interview = rowMeans(select(., Interview_Pulse_1, Interview_Pulse_2), na.rm = TRUE),
-    Sys_Interview   = rowMeans(select(., Interview_Sys_1, Interview_Sys_2), na.rm = TRUE),
-    Dia_Interview   = rowMeans(select(., Interview_Dia_1, Interview_Dia_2), na.rm = TRUE),
-    
-    # Encoding 1
-    Pulse_Enc1 = rowMeans(select(., Enc1_Pulse, Enc1_2_Pulse), na.rm = TRUE),
-    Sys_Enc1   = rowMeans(select(., Enc1_Sys, Enc1_2_Sys), na.rm = TRUE),
-    Dia_Enc1   = rowMeans(select(., Enc1_Dia, Enc1_2_Dia), na.rm = TRUE),
-    
-    # Arithmetik
-    Pulse_Arithm = rowMeans(select(., Arithm_Pulse_1, Arithm_Pulse_2), na.rm = TRUE),
-    Sys_Arithm   = rowMeans(select(., Arithm_Sys_1, Arithm_Sys_2), na.rm = TRUE),
-    Dia_Arithm   = rowMeans(select(., Arithm_Dia_1, Arithm_Dia_2), na.rm = TRUE),
-    
-    # Encoding 2
-    Pulse_Enc2 = rowMeans(select(., Enc2_Pulse_1, Enc2_Pulse_2), na.rm = TRUE),
-    Sys_Enc2   = rowMeans(select(., Enc2_Sys_1, Enc2_Sys_2), na.rm = TRUE),
-    Dia_Enc2   = rowMeans(select(., Enc2_Dia_1, Enc2_Dia_2), na.rm = TRUE),
-    
-    # PostDMS
-    Pulse_PostDMS = rowMeans(select(., PostDMS_Pulse_1, PostDMS_Pulse_2), na.rm = TRUE),
-    Sys_PostDMS   = rowMeans(select(., PostDMS_Sys_1, PostDMS_Sys_2), na.rm = TRUE),
-    Dia_PostDMS   = rowMeans(select(., PostDMS_Dia_1, PostDMS_Dia_2), na.rm = TRUE)
-  )
 
-#alles wichtige in neuen datenframe
+names(bp_vas_clean)
+
+# Kombinationen aus Messarten und Zeitpunkten erzeugen
+mean_cols <- as.vector(outer(messungen, zeitpunkte, paste, sep = "_"))
+
+# Datenrahmen mit den Mittelwerten aufbauen
 mittelwerte <- bp_vas_clean %>%
-  select(ID,VAS_1,VAS_2,VAS_3,Pulse_Baseline, Sys_Baseline, 
-         Dia_Baseline, Pulse_PostTSM, Sys_PostTSM, Dia_PostTSM, 
-         Pulse_PostTSST, Sys_PostTSST, Dia_PostTSST, Pulse_Interview, 
-         Sys_Interview, Dia_Interview, Pulse_Enc1, Sys_Enc1, 
-         Dia_Enc1, Pulse_Arithm, Sys_Arithm, Dia_Arithm, 
-         Pulse_Enc2, Sys_Enc2, Dia_Enc2, Pulse_PostDMS, 
-         Sys_PostDMS, Dia_PostDMS )
+  select(ID, VAS_1, VAS_2, VAS_3, all_of(mean_cols))
+
+
+
