@@ -1,0 +1,125 @@
+3.2648 	ERROR 	Support for the `sounddevice` audio backend is not available this session. Please install `psychopy-sounddevice` and restart the session to enable support.
+29.8974 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001BFB16FC0A0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001BFB16FC040>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001BFB16E8D60>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001BFB2DB8940>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1200]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+29.8975 	EXP 	window1: mouseVisible = True
+29.8975 	EXP 	window1: backgroundImage = ''
+29.8975 	EXP 	window1: backgroundFit = 'none'
+29.8976 	EXP 	window1: mouseVisible = False
+29.8976 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+29.8976 	EXP 	window1: recordFrameIntervals = False
+30.0640 	EXP 	window1: recordFrameIntervals = True
+30.2481 	EXP 	Screen (0) actual frame rate measured at 59.92Hz
+30.2482 	EXP 	window1: recordFrameIntervals = False
+32.9400 	EXP 	window1: mouseVisible = True
+32.9619 	EXP 	Created VAS_slider = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=0, fillColor=None, flip=False, font='Open Sans', granularity=0.0, labelColor=None, labelHeight=0.05, labelWrapWidth=None, labels=None, lineColor=None, markerColor=None, name='VAS_slider', opacity=None, ori=0.0, pos=array([0., 0.]), readOnly=False, self=UNKNOWN, size=array([1.5, 0.1]), startValue=None, style='slider', styleTweaks=[], ticks=ndarray(...), units='height', win=Window(...))
+33.0199 	EXP 	Created VAS_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='VAS_text', opacity=1.0, ori=0.0, pos=array([0.  , 0.35]), rgb=UNKNOWN, text='Wie gestresst fühlen Sie sich im Moment?', units='height', win=Window(...), wrapWidth=1)
+33.0293 	EXP 	Created VAS_notstressed_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='VAS_notstressed_text', opacity=1.0, ori=0.0, pos=array([-0.58,  0.15]), rgb=UNKNOWN, text='Gar nicht gestresst', units='height', win=Window(...), wrapWidth=1)
+33.0330 	EXP 	Created VAS_stressed_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='VAS_stressed_text', opacity=1.0, ori=0.0, pos=array([0.62, 0.15]), rgb=UNKNOWN, text='Sehr gestresst', units='height', win=Window(...), wrapWidth=1)
+33.0475 	EXP 	Created continue_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-6.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.025, italic=False, languageStyle='LTR', name='continue_text', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.25]), rgb=UNKNOWN, text="Antwort mit 'Space' bestätigen.", units='height', win=Window(...), wrapWidth=1)
+33.0514 	EXP 	Created label0 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-7.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label0', opacity=1.0, ori=0.0, pos=array([-0.75, -0.15]), rgb=UNKNOWN, text='0', units='height', win=Window(...), wrapWidth=1)
+33.0544 	EXP 	Created label10 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-8.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label10', opacity=1.0, ori=0.0, pos=array([-0.6 , -0.15]), rgb=UNKNOWN, text='10', units='height', win=Window(...), wrapWidth=1)
+33.0573 	EXP 	Created label20 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-9.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label20', opacity=1.0, ori=0.0, pos=array([-0.45, -0.15]), rgb=UNKNOWN, text='20', units='height', win=Window(...), wrapWidth=1)
+33.0602 	EXP 	Created label30 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-10.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label30', opacity=1.0, ori=0.0, pos=array([-0.3 , -0.15]), rgb=UNKNOWN, text='30', units='height', win=Window(...), wrapWidth=1)
+33.0629 	EXP 	Created label40 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-11.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label40', opacity=1.0, ori=0.0, pos=array([-0.15, -0.15]), rgb=UNKNOWN, text='40', units='height', win=Window(...), wrapWidth=1)
+33.0657 	EXP 	Created label50 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-12.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label50', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.15]), rgb=UNKNOWN, text='50', units='height', win=Window(...), wrapWidth=1)
+33.0685 	EXP 	Created label60 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-13.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label60', opacity=1.0, ori=0.0, pos=array([ 0.15, -0.15]), rgb=UNKNOWN, text='60', units='height', win=Window(...), wrapWidth=1)
+33.0713 	EXP 	Created label70 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-14.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label70', opacity=1.0, ori=0.0, pos=array([ 0.3 , -0.15]), rgb=UNKNOWN, text='70', units='height', win=Window(...), wrapWidth=1)
+33.0741 	EXP 	Created label80 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-15.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label80', opacity=1.0, ori=0.0, pos=array([ 0.45, -0.15]), rgb=UNKNOWN, text='80', units='height', win=Window(...), wrapWidth=1)
+33.0769 	EXP 	Created label90 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-16.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label90', opacity=1.0, ori=0.0, pos=array([ 0.6 , -0.15]), rgb=UNKNOWN, text='90', units='height', win=Window(...), wrapWidth=1)
+33.0790 	EXP 	Created label100 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-17.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label100', opacity=1.0, ori=0.0, pos=array([ 0.75, -0.15]), rgb=UNKNOWN, text='100', units='height', win=Window(...), wrapWidth=1)
+33.0799 	EXP 	Created instruction_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_text', opacity=1.0, ori=0.0, pos=array([0.  , 0.15]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.0814 	EXP 	Created continue_text_2 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.03, italic=False, languageStyle='LTR', name='continue_text_2', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.25]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.0823 	EXP 	Created example_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='example_text', opacity=1.0, ori=0.0, pos=array([0. , 0.4]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.0871 	EXP 	window1: mouseVisible = True
+33.3127 	EXP 	Created example_slider_2 = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-1, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelColor=None, labelHeight=0.015, labelWrapWidth=None, labels=tuple(...), lineColor=None, markerColor=None, name='example_slider_2', opacity=None, ori=0.0, pos=array([ 0.  , -0.31]), readOnly=False, self=UNKNOWN, size=array([0.95, 0.06]), startValue=None, style='rating', styleTweaks=[], ticks=array([1, 2, 3, 4, 5]), units='height', win=Window(...))
+33.3348 	EXP 	Created example_image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='example_image', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+33.3358 	EXP 	Created fixcross = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='fixcross', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.3372 	EXP 	Created front_square = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, fillColor=array([-0.051, -0.051, -0.051]), fillColorSpace='rgb', fillRGB=array([-0.051, -0.051, -0.051]), interpolate=True, lineColor=array([0., 0., 0.]), lineColorSpace='rgb', lineRGB=array([0, 0, 0]), lineWidth=1.0, name='front_square', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), units='height', vertices=ndarray(...), win=Window(...))
+33.3584 	EXP 	Created stim_images = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='stim_images', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.21333333, 0.21333333]), texRes=128.0, units='height', win=Window(...))
+33.3594 	EXP 	Created trial_inst_images = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='trial_inst_images', opacity=1.0, ori=0.0, pos=array([0. , 0.4]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.3641 	EXP 	window1: mouseVisible = True
+33.5101 	EXP 	Created slider_images = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-4, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelColor=None, labelHeight=0.015, labelWrapWidth=None, labels=tuple(...), lineColor=None, markerColor=None, name='slider_images', opacity=None, ori=0.0, pos=array([ 0.  , -0.31]), readOnly=False, self=UNKNOWN, size=array([0.95, 0.06]), startValue=None, style='rating', styleTweaks=[], ticks=array([1, 2, 3, 4, 5]), units='height', win=Window(...))
+33.5110 	EXP 	Created fixcross = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='fixcross', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.5120 	EXP 	Created outro = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='outro', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+33.5512 	EXP 	VAS_slider: autoLog = True
+33.5512 	EXP 	VAS_slider: markerPos = None
+33.5512 	EXP 	VAS_slider: styleTweaks = []
+33.5512 	EXP 	VAS_slider: styleTweaks = []
+33.5512 	EXP 	VAS_slider: styleTweaks = []
+33.5512 	EXP 	VAS_slider: styleTweaks = []
+33.5512 	EXP 	VAS_slider: contrast = 1.0
+33.5512 	EXP 	VAS_slider: autoLog = True
+33.5512 	EXP 	example_slider_2: autoLog = True
+33.5512 	EXP 	example_slider_2: markerPos = None
+33.5512 	EXP 	example_slider_2: styleTweaks = []
+33.5512 	EXP 	example_slider_2: styleTweaks = []
+33.5512 	EXP 	example_slider_2: styleTweaks = []
+33.5512 	EXP 	example_slider_2: styleTweaks = []
+33.5512 	EXP 	example_slider_2: contrast = 1.0
+33.5512 	EXP 	example_slider_2: autoLog = True
+33.5512 	EXP 	slider_images: autoLog = True
+33.5512 	EXP 	slider_images: markerPos = None
+33.5512 	EXP 	slider_images: styleTweaks = []
+33.5512 	EXP 	slider_images: styleTweaks = []
+33.5512 	EXP 	slider_images: styleTweaks = []
+33.5512 	EXP 	slider_images: styleTweaks = []
+33.5512 	EXP 	slider_images: contrast = 1.0
+33.5512 	EXP 	slider_images: autoLog = True
+33.5512 	EXP 	VAS_slider: markerPos = None
+33.5512 	EXP 	VAS_slider: markerPos = None
+33.5512 	EXP 	VAS_slider: markerPos = 3
+33.5512 	EXP 	VAS_slider: autoDraw = True
+33.5512 	EXP 	VAS_text: autoDraw = True
+33.5512 	EXP 	VAS_notstressed_text: autoDraw = True
+33.5512 	EXP 	VAS_stressed_text: autoDraw = True
+33.5512 	EXP 	continue_text: autoDraw = True
+33.5512 	EXP 	label0: autoDraw = True
+33.5512 	EXP 	label10: autoDraw = True
+33.5512 	EXP 	label20: autoDraw = True
+33.5512 	EXP 	label30: autoDraw = True
+33.5512 	EXP 	label40: autoDraw = True
+33.5512 	EXP 	label50: autoDraw = True
+33.5512 	EXP 	label60: autoDraw = True
+33.5512 	EXP 	label70: autoDraw = True
+33.5512 	EXP 	label80: autoDraw = True
+33.5512 	EXP 	label90: autoDraw = True
+33.5512 	EXP 	label100: autoDraw = True
+40.6485 	DATA 	Mouse: Left button down, pos=(237,595)
+40.6727 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.6897 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7064 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7229 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7395 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7562 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7729 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.7895 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.8064 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.8073 	DATA 	Mouse:  Left button up, pos=(237,595)
+40.8229 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+40.8730 	EXP 	VAS_slider: autoDraw = False
+40.8730 	EXP 	VAS_text: autoDraw = False
+40.8730 	EXP 	VAS_notstressed_text: autoDraw = False
+40.8730 	EXP 	VAS_stressed_text: autoDraw = False
+40.8730 	EXP 	continue_text: autoDraw = False
+40.8730 	EXP 	label0: autoDraw = False
+40.8730 	EXP 	label10: autoDraw = False
+40.8730 	EXP 	label20: autoDraw = False
+40.8730 	EXP 	label30: autoDraw = False
+40.8730 	EXP 	label40: autoDraw = False
+40.8730 	EXP 	label50: autoDraw = False
+40.8730 	EXP 	label60: autoDraw = False
+40.8730 	EXP 	label70: autoDraw = False
+40.8730 	EXP 	label80: autoDraw = False
+40.8730 	EXP 	label90: autoDraw = False
+40.8730 	EXP 	label100: autoDraw = False
+40.8730 	EXP 	instruction_text: height = 0.05
+40.8730 	EXP 	instruction_text: height = 0.05
+40.8730 	EXP 	instruction_text: height = 0.05
+40.8730 	EXP 	instruction_text: text = 'Sie sehen nun einige Bilder. Sie müssen mit einem Maus-Schieberegler auswählen, ob Sie diese Bilder gestern bereits gesehen haben oder nicht.\n\nAuf der nachfolgenden Seite sehen Sie ein Beispiel.\n\n(Bitte antworten Sie schnell, da Sie 5 Sekunden Zeit haben, um jede Frage zu beantworten.)'
+40.8730 	EXP 	continue_text_2: height = 0.03
+40.8730 	EXP 	continue_text_2: height = 0.03
+40.8730 	EXP 	continue_text_2: height = 0.03
+40.8730 	EXP 	continue_text_2: text = 'Drücken Sie "Leertaste", um die Aufgabe zu starten.'
+40.8730 	EXP 	instruction_text: autoDraw = True
+40.8730 	EXP 	continue_text_2: autoDraw = True
+84.4644 	DATA 	Keypress: escape
+84.9586 	EXP 	window1: mouseVisible = True

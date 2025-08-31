@@ -2,8 +2,16 @@
 library(readxl)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 library(effectsize)
 library(purrr)
+library(ez)
+library(afex)
+library(stringr)
+
+library(lmtest); library(sandwich)
+library(emmeans)
+
 
 limesurvey <- read_excel("limesurvey_all_final.xlsx")
 
@@ -32,16 +40,11 @@ fragebogen_clean <- fragebogen_clean[-1, ]
 # Neue Codierung für Antwortoptionen
 antwort_coding <- c("fast nie" = 1, "manchmal" = 2, "häufig" = 3, "fast immer" = 4)
 
-# Alle RRS-Spalten numerisch umcodieren
+# Alle RRS-Spalten numerisch umcodieren  und Gesamt-Score berechnen
 fragebogen_clean <- fragebogen_clean %>%
-  mutate(across(starts_with("RRS_"), ~ as.numeric(recode(.x, !!!antwort_coding))))
-
-# Gesamt-RRS-Score berechnen
-fragebogen_clean <- fragebogen_clean %>%
-  mutate(RRS_Score = rowSums(across(starts_with("RRS_")), na.rm = TRUE))
-
-# Check: erste Item-Spalte
-table(fragebogen_clean$RRS_1)  
+  mutate(across(starts_with("RRS_"), ~ as.numeric(recode(.x, !!!antwort_coding)))) %>%
+  mutate(RRS_Score = rowSums(across(starts_with("RRS_")), na.rm = TRUE)) %>%
+  select(ID, Geschlecht, Alter, RRS_Score)
 
 # Check: Scores insgesamt
 summary(fragebogen_clean$RRS_Score)
@@ -111,7 +114,8 @@ bp_vas_clean <- map_dfr(
   slice(-1) %>%
   filter(
     if_any(-ID, ~ !is.na(.)),
-    if_any(starts_with("Baseline_") | starts_with("PostTSST_"), ~ !is.na(.))
+    if_any(starts_with("Baseline_"), ~ !is.na(.)) |
+      if_any(starts_with("PostTSST_"), ~ !is.na(.))
   ) %>%
   mutate(across(-ID, as.numeric)) %>%
   # drop columns that are entirely 999 (now NA)
@@ -170,42 +174,38 @@ mittelwerte <- bp_vas_clean %>%
 
 gesamt1 <- left_join(fragebogen_clean, mittelwerte, by = "ID")
 
-
-gesamt1 <- gesamt1 %>%
-  select(-starts_with("RRS..."))
-
-summary(gesamt1$RRS_Score)
-
 #Conditions 
 con <- read_excel("cond_overview.xlsx")
 
+# IDs normalisieren und vorbereiten
+normalize_id <- function(x) {
+  x %>% str_trim() %>% str_to_upper()
+}
 
-# Erstmal sicherstellen, dass beide IDs als character vorliegen
-con$ID <- as.character(con$ID)
-gesamt1$ID <- as.character(gesamt1$ID)
-
-# Alle Zeilen entfernen, bei denen die ID fehlt
-con <- con %>% filter(!is.na(ID))
-con <- con %>% filter(rowSums(is.na(.)) < ncol(.))
-con <- con %>%
-  filter(grepl("^ID", ID))
-
-
-
-gesamt1 <- left_join(gesamt1, con[, c("ID", "Condition")], by = "ID")
 gesamt1 <- gesamt1 %>%
-  select(-matches("^Condition"))
+  mutate(ID = as.character(ID)) %>%
+  mutate(ID = normalize_id(ID))
 
+con <- con %>%
+  mutate(ID = as.character(ID)) %>%
+  filter(!is.na(ID)) %>%
+  filter(rowSums(is.na(.)) < ncol(.)) %>%
+  filter(grepl("^ID", ID)) %>%
+  mutate(ID = normalize_id(ID))
 
-# Dann wie geplant aufteilen
-gesamt1$Treatment <- substr(gesamt1$Condition, 1, 1)
-gesamt1$TMS <- substr(gesamt1$Condition, 2, 2)
+# Auf nicht gematchte IDs prüfen
+unmatched_ids <- anti_join(gesamt1, con, by = "ID")
+if (nrow(unmatched_ids) > 0) {
+  message("Nicht gematchte IDs: ", paste(unmatched_ids$ID, collapse = ", "))
+}
 
-# Zuerst sicherstellen, dass Treatment numerisch ist
-gesamt1$Treatment <- as.numeric(gesamt1$Treatment)
+gesamt1 <- left_join(gesamt1, select(con, ID, Condition), by = "ID") %>%
+  mutate(
+    Treatment = as.numeric(substr(Condition, 1, 1)),
+    TMS = substr(Condition, 2, 2)
+  ) %>%
+  select(-Condition)
 
-
-library(ggplot2)
 
 
 #Wurde RSS gut aufgeteilt? Unterscheiden sich die Mittelwerte signifikant?
@@ -220,25 +220,8 @@ t.test(VAS_2 ~ Treatment, data = gesamt1)
 # VAS_3: z.B. "Wie nervös fühlst du dich?"
 t.test(VAS_3 ~ Treatment, data = gesamt1)
 
-library(tidyr)
-library(dplyr)
-library(afex)
-library(ez)
-library(tidyverse)
 
-
-
-names(gesamt1)
-
-
-# Anova 
-
-pulse_long %>%
-  filter(!is.na(Wert)) %>%
-  group_by(Zeitpunkt, Treatment) %>%
-  summarise(n = n_distinct(ID), .groups = "drop") %>%
-  tidyr::pivot_wider(names_from = Treatment, values_from = n,
-                     names_prefix = "Treatment_")
+# Anova  Manipulation check Puls 
 
 
 pulse_long <- gesamt1 %>%
@@ -251,13 +234,13 @@ pulse_long <- gesamt1 %>%
                             "Pulse_Interview" = "Interview"),
          Zeitpunkt = as.factor(Zeitpunkt),
          Treatment = as.factor(Treatment))
+pulse_long %>%
+  filter(!is.na(Puls)) %>%
+  group_by(Zeitpunkt, Treatment) %>%
+  summarise(n = n_distinct(ID), .groups = "drop") %>%
+  pivot_wider(names_from = Treatment, values_from = n,
+              names_prefix = "Treatment_")
 
-
-print(anova_puls)
-
-table(pulse_long$Treatment)
-
-table(pulse_long$Treatment, pulse_long$Zeitpunkt)
 
 pulse_long <- pulse_long %>%
   mutate(ID = as.factor(ID),
@@ -291,105 +274,316 @@ anova_puls <- ezANOVA(
   type = 3,
   detailed = TRUE
 )
+print(anova_puls)
 
-library(tidyverse)
-library(ez)
 
-# Systole
-sys_long <- gesamt1 %>%
-  select(ID, Treatment, Sys_Baseline, Sys_Interview) %>%
-  pivot_longer(cols = c(Sys_Baseline, Sys_Interview),
-               names_to = "Zeitpunkt",
-               values_to = "Systole") %>%
-  mutate(Zeitpunkt = factor(Zeitpunkt, levels = c("Sys_Baseline", "Sys_Interview")),
-         ID = as.factor(ID),
-         Treatment = as.factor(Treatment))
 
-# Diastole
-dia_long <- gesamt1 %>%
-  select(ID, Treatment, Dia_Baseline, Dia_Interview) %>%
-  pivot_longer(cols = c(Dia_Baseline, Dia_Interview),
-               names_to = "Zeitpunkt",
-               values_to = "Diastole") %>%
-  mutate(Zeitpunkt = factor(Zeitpunkt, levels = c("Dia_Baseline", "Dia_Interview")),
-         ID = as.factor(ID),
-         Treatment = as.factor(Treatment))
+names(gesamt1)
 
-sys_long <- sys_long %>%
-  filter(!is.na(Systole), !is.na(Treatment), !is.na(ID))
 
-dia_long <- dia_long %>%
-  filter(!is.na(Diastole), !is.na(Treatment), !is.na(ID))
 
-# Für deine ANOVA-Datenframes (z.B. sys_long oder dia_long)
+# 1) Stress-Mittelwert pro VP bilden (über die gewünschten Stress-Phasen)
+stress_vars <- c("Pulse_PostTSST", "Pulse_Interview", 
+                 "Pulse_Enc1", "Pulse_Arithm", "Pulse_Enc2")
 
-sys_long <- sys_long %>%
+dat_pulse_agg <- gesamt1 %>%
   mutate(
-    ID = as.factor(ID),
-    Treatment = as.factor(Treatment),
-    Zeitpunkt = as.factor(Zeitpunkt)
+    # Anzahl vorhandener Stress-Zeitpunkte (optional für QC)
+    n_stress_available = rowSums(!is.na(across(all_of(stress_vars)))),
+    # Mittelwert über Stress-Zeitpunkte (mind. 1 Wert nötig)
+    Pulse_StressMean = rowMeans(across(all_of(stress_vars)), na.rm = TRUE)
   )
 
-dia_long <- dia_long %>%
+# 2) Long-Format: Baseline vs. StressMean
+pulse_agg_long <- dat_pulse_agg %>%
+  select(ID, Treatment, Pulse_Baseline, Pulse_StressMean, n_stress_available) %>%
+  pivot_longer(
+    cols = c(Pulse_Baseline, Pulse_StressMean),
+    names_to = "Zeitpunkt",
+    values_to = "Puls"
+  ) %>%
   mutate(
-    ID = as.factor(ID),
+    Zeitpunkt = recode(Zeitpunkt,
+                       "Pulse_Baseline"   = "Baseline",
+                       "Pulse_StressMean" = "StressMean"),
+    ID        = as.factor(ID),
     Treatment = as.factor(Treatment),
-    Zeitpunkt = as.factor(Zeitpunkt)
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
   )
 
-# Systole
-anova_sys <- ezANOVA(
-  data = sys_long,
-  dv = Systole,
-  wid = ID,
-  within = .(Zeitpunkt),
+# 3) (Optional) Übersicht: Stichprobenzahlen je ZP x Treatment (ohne NAs in Puls)
+pulse_agg_long %>%
+  filter(!is.na(Puls)) %>%
+  group_by(Zeitpunkt, Treatment) %>%
+  summarise(n = n_distinct(ID), .groups = "drop") %>%
+  pivot_wider(names_from = Treatment, values_from = n, names_prefix = "Treatment_")
+
+# 4) Nur VP behalten, die für beide Zeitpunkte (Baseline & StressMean) Werte haben
+pulse_agg_long_clean <- pulse_agg_long %>%
+  group_by(ID) %>%
+  filter(!any(is.na(Puls))) %>%
+  ungroup()
+
+# 5) Mixed ANOVA: within = Zeitpunkt (Baseline vs. StressMean), between = Treatment
+anova_pulse_agg <- ezANOVA(
+  data = pulse_agg_long_clean,
+  dv   = Puls,
+  wid  = ID,
+  within  = .(Zeitpunkt),
   between = .(Treatment),
   type = 3,
   detailed = TRUE
 )
 
+print(anova_pulse_agg)
 
-# Diastole
-anova_dia <- ezANOVA(
-  data = dia_long,
-  dv = Diastole,
-  wid = ID,
-  within = .(Zeitpunkt),
+
+#Zeitpunkt   1  41 1.406694e+02  596.3087 9.671911e+00 3.397994e-03     * 0.0148621183
+#Treatment:Zeitpunkt   1  41 1.069578e+02  596.3087 7.354023e+00 9.732437e-03     * 0.0113407824
+
+
+########################### Systole
+
+# 1) Stress-Mittelwert pro VP bilden (über die gewünschten Stress-Phasen)
+systole_vars <- c("Sys_PostTSST", "Sys_Interview", 
+                 "Sys_Enc1", "Sys_Arithm", "Sys_Enc2")
+
+dat_sys_agg <- gesamt1 %>%
+  mutate(
+    # Anzahl vorhandener Stress-Zeitpunkte (optional für QC)
+    n_stress_available = rowSums(!is.na(across(all_of(systole_vars)))),
+    # Mittelwert über Stress-Zeitpunkte (mind. 1 Wert nötig)
+    Sys_StressMean = rowMeans(across(all_of(systole_vars)), na.rm = TRUE)
+  )
+
+
+# 2) Long-Format: Baseline vs. StressMean
+systole_agg_long <- dat_sys_agg %>%
+  select(ID, Treatment, Sys_Baseline, Sys_StressMean, n_stress_available) %>%
+  pivot_longer(
+    cols = c(Sys_Baseline, Sys_StressMean),
+    names_to = "Zeitpunkt",
+    values_to = "Systole"
+  ) %>%
+  mutate(
+    Zeitpunkt = recode(Zeitpunkt,
+                       "Sys_Baseline"   = "Baseline",
+                       "Sys_StressMean" = "StressMean"),
+    ID        = as.factor(ID),
+    Treatment = as.factor(Treatment),
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
+  )
+
+# Nur VP behalten, die für beide Zeitpunkte (Baseline & StressMean) Werte haben
+systole_agg_long_clean <- systole_agg_long %>%
+  group_by(ID) %>%
+  filter(!any(is.na(Systole))) %>%
+  ungroup()
+
+# Mixed ANOVA
+anova_systole_agg <- ezANOVA(
+  data = systole_agg_long_clean,
+  dv   = Systole,
+  wid  = ID,
+  within  = .(Zeitpunkt),
   between = .(Treatment),
   type = 3,
   detailed = TRUE
 )
-print(anova_sys)
-print(anova_dia)
+
+print(anova_systole_agg)
+
+###############################  Dystole
 
 
-zeitpunkte <- c("Baseline", "PostTSM", "PostTSST", "Interview", "Enc1", "Arithm", "Enc2", "PostDMS")
+# Stress-Phasen definieren (Diastole)
+dia_vars <- c("Dia_PostTSST", "Dia_Interview", 
+              "Dia_Enc1", "Dia_Arithm", "Dia_Enc2")
 
-library(dplyr)
-
-# Anwesenheitsmatrix
-library(dplyr)
-
-# Definiere die Zeitpunkte
-zeitpunkte <- c("Baseline", "PostTSM", "PostTSST", "Interview", "Enc1", "Arithm", "Enc2", "PostDMS")
-
-# Neue Übersichtstabelle: 1 = Daten vorhanden (mind. einer von Puls, Sys, Dia), 0 = alle NA
-overview <- gesamt1 %>%
-  mutate(across(everything(), ~ ifelse(is.nan(.x), NA, .x))) %>% # falls NaN statt NA vorkommt
-  transmute(
-    ID,
-    Treatment,
-    !!!setNames(
-      lapply(zeitpunkte, function(tp) {
-        rowSums(select(., starts_with(paste0("Pulse_", tp)),
-                       starts_with(paste0("Sys_", tp)),
-                       starts_with(paste0("Dia_", tp))), na.rm = TRUE) > 0
-      }),
-      paste0("has_", zeitpunkte)
-    )
+dat_dia_agg <- gesamt1 %>%
+  mutate(
+    n_stress_available = rowSums(!is.na(across(all_of(dia_vars)))),
+    Dia_StressMean = rowMeans(across(all_of(dia_vars)), na.rm = TRUE)
   )
-colSums(select(overview, starts_with("has_")))
 
-overview %>%
-  group_by(Treatment) %>%
-  summarise(across(starts_with("has_"), sum), .groups = "drop")
+# Long-Format: Baseline vs. StressMean
+dia_agg_long <- dat_dia_agg %>%
+  select(ID, Treatment, Dia_Baseline, Dia_StressMean, n_stress_available) %>%
+  pivot_longer(
+    cols = c(Dia_Baseline, Dia_StressMean),
+    names_to = "Zeitpunkt",
+    values_to = "Diastole"
+  ) %>%
+  mutate(
+    Zeitpunkt = recode(Zeitpunkt,
+                       "Dia_Baseline"   = "Baseline",
+                       "Dia_StressMean" = "StressMean"),
+    ID        = as.factor(ID),
+    Treatment = as.factor(Treatment),
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
+  )
+
+# Nur VP mit vollständigen Daten behalten
+dia_agg_long_clean <- dia_agg_long %>%
+  group_by(ID) %>%
+  filter(!any(is.na(Diastole))) %>%
+  ungroup()
+
+# Mixed ANOVA: within = Zeitpunkt, between = Treatment
+anova_dia_agg <- ezANOVA(
+  data = dia_agg_long_clean,
+  dv   = Diastole,
+  wid  = ID,
+  within  = .(Zeitpunkt),
+  between = .(Treatment),
+  type = 3,
+  detailed = TRUE
+)
+
+print(anova_dia_agg)
+
+library(dplyr)
+library(tidyr)
+
+# Optional: Welche IDs haben fehlendes Treatment?
+pulse_agg_long_clean %>%
+  filter(is.na(Treatment)) %>%
+  distinct(ID) %>% arrange(ID)
+
+# Helper-Funktion: fasst M ± SD (n) pro Treatment x Zeitpunkt zusammen und pivotiert wide
+make_summary_table <- function(df, value_col) {
+  df %>%
+    filter(!is.na(Treatment)) %>%                                 # NA-Treatment raus
+    mutate(Treatment = dplyr::recode_factor(as.character(Treatment),
+                                            `0` = "Kontrolle",
+                                            `1` = "Stress")) %>%   # Labels
+    group_by(Treatment, Zeitpunkt) %>%
+    summarise(
+      M  = mean(.data[[value_col]], na.rm = TRUE),
+      SD = sd(  .data[[value_col]], na.rm = TRUE),
+      n  = dplyr::n_distinct(ID),
+      .groups = "drop"
+    ) %>%
+    mutate(stat = sprintf("%.1f ± %.1f (n=%d)", M, SD, n)) %>%
+    select(Treatment, Zeitpunkt, stat) %>%
+    pivot_wider(names_from = Zeitpunkt, values_from = stat) %>%
+    arrange(Treatment)
+}
+
+# Tabellen bauen
+pulse_table    <- make_summary_table(pulse_agg_long_clean,   "Puls")
+systole_table  <- make_summary_table(systole_agg_long_clean, "Systole")
+dia_table      <- make_summary_table(dia_agg_long_clean,     "Diastole")
+
+# Anzeigen
+pulse_table
+systole_table
+dia_table
+
+
+######################################## H1 
+#Trait-Rumination sagt das subjektive Stresserleben in der Stressbedingung stärker vorher als in der Kontrollbedingung. 
+
+
+
+# 1) Subjektiven Stress bilden (Mittel aus VAS_1..VAS_3)
+dat_h1 <- gesamt1 %>%
+  mutate(
+    SubjStress   = rowMeans(across(c(VAS_1, VAS_2, VAS_3)), na.rm = TRUE),
+    Treatment01  = ifelse(Treatment == 1, 1, 0),
+    Treatment_f  = factor(Treatment01, levels = c(0,1), labels = c("Kontrolle","Stress")),
+    RRS_z        = as.numeric(scale(RRS_Score, center = TRUE, scale = TRUE)),
+    SubjStress_z = as.numeric(scale(SubjStress,   center = TRUE, scale = TRUE))
+  ) %>%
+  filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(SubjStress_z))
+
+# 2) Modell: Interaktion Rumination × Treatment
+m_h1 <- lm(SubjStress_z ~ RRS_z * Treatment_f, data = dat_h1)
+
+# 3) Robuste Standardfehler (HC3)
+lmtest::coeftest(m_h1, vcov = sandwich::vcovHC(m_h1, type = "HC3"))
+
+# 4) Simple Slopes (Steigung von RRS in jeder Gruppe + Unterschied)
+emtrends(m_h1, ~ Treatment_f, var = "RRS_z") %>% summary(infer = TRUE)
+pairs(emtrends(m_h1, ~ Treatment_f, var = "RRS_z"))
+
+# 5) Plot zur Veranschaulichung
+ggplot(dat_h1, aes(RRS_z, SubjStress_z, color = Treatment_f)) +
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Trait-Rumination (z)", y = "Subjektiver Stress (z)", color = "Treatment") +
+  theme_minimal()
+
+# H1 mit RRS und Puls
+
+library(dplyr); library(lmtest); library(sandwich); library(emmeans); library(ggplot2)
+
+Pulse_StressMean <- c("Pulse_PostTSST","Pulse_Interview","Pulse_Enc1","Pulse_Arithm","Pulse_Enc2")
+
+dat_pulse <- gesamt1 %>%
+  mutate(
+    Pulse_StressMean = rowMeans(across(all_of(stress_vars)), na.rm = TRUE),
+    DeltaPulse       = Pulse_StressMean - Pulse_Baseline,
+    Treatment_f      = factor(ifelse(Treatment==1,1,0), levels=c(0,1), labels=c("Kontrolle","Stress")),
+    RRS_z            = as.numeric(scale(RRS_Score)),
+    DeltaPulse_z     = as.numeric(scale(DeltaPulse))
+  ) %>%
+  filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(DeltaPulse_z))
+
+m_pulse_delta <- lm(DeltaPulse_z ~ RRS_z * Treatment_f, data = dat_pulse)
+coeftest(m_pulse_delta, vcov = vcovHC(m_pulse_delta, type = "HC3"))
+
+# Simple slopes (Steigung von RRS in jeder Gruppe + Unterschied)
+emtrends(m_pulse_delta, ~ Treatment_f, var = "RRS_z") %>% summary(infer = TRUE)
+pairs(emtrends(m_pulse_delta, ~ Treatment_f, var = "RRS_z"))
+
+# Plot
+ggplot(dat_pulse, aes(RRS_z, DeltaPulse_z, color = Treatment_f)) +
+  geom_point(alpha=.5) + geom_smooth(method="lm", se=TRUE) +
+  labs(x="Trait-Rumination (z)", y="ΔPuls (z)", color="Treatment")
+
+
+
+# Pulse_StressMean ~ Pulse_Baseline + RRS_z * Treatment_f  (robuste SEs)
+m_pulse_ancova <- lm(scale(Pulse_StressMean) ~ scale(Pulse_Baseline) + 
+                       scale(RRS_Score) * Treatment_f, data = gesamt1)
+lmtest::coeftest(m_pulse_ancova, vcov = sandwich::vcovHC(m_pulse_ancova, type="HC3"))
+emmeans::pairs(emmeans::emtrends(m_pulse_ancova, ~ Treatment_f, var="scale(RRS_Score)"))
+
+psych::alpha(gesamt1[, c("VAS_1","VAS_2","VAS_3")])
+
+car::vif(m_h1)            # Multikollinearität
+bptest(m_h1)              # Breusch-Pagan (wir nutzen ohnehin HC3)
+plot(m_h1, which=1:2)     # Residuen / QQ
+
+
+car::vif(m_h1, type = "predictor")
+
+dat_h1_ec <- gesamt1 %>%
+  mutate(
+    SubjStress   = rowMeans(across(c(VAS_1, VAS_2, VAS_3)), na.rm = TRUE),
+    RRS_z        = as.numeric(scale(RRS_Score)),
+    Treatment_c  = ifelse(Treatment == 1,  0.5, -0.5),   # -0.5 = Kontrolle, +0.5 = Stress
+    SubjStress_z = as.numeric(scale(SubjStress))
+  ) %>%
+  filter(!is.na(Treatment_c), !is.na(RRS_z), !is.na(SubjStress_z))
+
+m_h1_ec <- lm(SubjStress_z ~ RRS_z * Treatment_c, data = dat_h1_ec)
+
+car::vif(m_h1_ec, type = "predictor")              # VIF neu checken
+lmtest::coeftest(m_h1_ec, vcov = sandwich::vcovHC(m_h1_ec, type="HC3"))
+
+plot(m_h1, which = 4)                      # Cook's distance
+which.max(cooks.distance(m_h1))            # auffälligster Fall
+car::outlierTest(m_h1)                     # Bonferroni Outlier Test (vorsichtig interpretieren)
+
+MASS::rlm(SubjStress_z ~ RRS_z * Treatment_f, data = dat_h1) %>% summary()
+
+
+
+#H2: 
+#Trait-Rumination ist mit einem abgeschwächten stimulus priority Effekt verbunden,
+#d. h. einer geringeren Differenz in der Erinnerungsleistung zwischen beachteten und unbeachteten Reizen im Wiedererkennungstest.
+
+
+limesurvey <- read_excel("limesurvey_all_final.xlsx")

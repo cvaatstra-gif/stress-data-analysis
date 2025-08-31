@@ -1,0 +1,329 @@
+3.1300 	ERROR 	Support for the `sounddevice` audio backend is not available this session. Please install `psychopy-sounddevice` and restart the session to enable support.
+43.1428 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000016E7F753490>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000016E7F753430>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000016E7F753160>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000016E26E27D60>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1200]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+43.1431 	EXP 	window1: mouseVisible = True
+43.1431 	EXP 	window1: backgroundImage = ''
+43.1432 	EXP 	window1: backgroundFit = 'none'
+43.1434 	EXP 	window1: mouseVisible = False
+43.1434 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+43.1434 	EXP 	window1: recordFrameIntervals = False
+43.3088 	EXP 	window1: recordFrameIntervals = True
+43.4917 	EXP 	Screen (0) actual frame rate measured at 60.16Hz
+43.4917 	EXP 	window1: recordFrameIntervals = False
+46.6108 	EXP 	window1: mouseVisible = True
+46.6330 	EXP 	Created VAS_slider = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=0, fillColor=None, flip=False, font='Open Sans', granularity=0.0, labelColor=None, labelHeight=0.05, labelWrapWidth=None, labels=None, lineColor=None, markerColor=None, name='VAS_slider', opacity=None, ori=0.0, pos=array([0., 0.]), readOnly=False, self=UNKNOWN, size=array([1.5, 0.1]), startValue=None, style='slider', styleTweaks=[], ticks=ndarray(...), units='height', win=Window(...))
+46.6953 	EXP 	Created VAS_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='VAS_text', opacity=1.0, ori=0.0, pos=array([0.  , 0.35]), rgb=UNKNOWN, text='Wie gestresst fühlen Sie sich im Moment?', units='height', win=Window(...), wrapWidth=1)
+46.7047 	EXP 	Created VAS_notstressed_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='VAS_notstressed_text', opacity=1.0, ori=0.0, pos=array([-0.58,  0.15]), rgb=UNKNOWN, text='Gar nicht gestresst', units='height', win=Window(...), wrapWidth=1)
+46.7083 	EXP 	Created VAS_stressed_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='VAS_stressed_text', opacity=1.0, ori=0.0, pos=array([0.62, 0.15]), rgb=UNKNOWN, text='Sehr gestresst', units='height', win=Window(...), wrapWidth=1)
+46.7233 	EXP 	Created continue_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-6.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.025, italic=False, languageStyle='LTR', name='continue_text', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.25]), rgb=UNKNOWN, text="Antwort mit 'Space' bestätigen.", units='height', win=Window(...), wrapWidth=1)
+46.7272 	EXP 	Created label0 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-7.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label0', opacity=1.0, ori=0.0, pos=array([-0.75, -0.15]), rgb=UNKNOWN, text='0', units='height', win=Window(...), wrapWidth=1)
+46.7302 	EXP 	Created label10 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-8.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label10', opacity=1.0, ori=0.0, pos=array([-0.6 , -0.15]), rgb=UNKNOWN, text='10', units='height', win=Window(...), wrapWidth=1)
+46.7332 	EXP 	Created label20 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-9.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label20', opacity=1.0, ori=0.0, pos=array([-0.45, -0.15]), rgb=UNKNOWN, text='20', units='height', win=Window(...), wrapWidth=1)
+46.7360 	EXP 	Created label30 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-10.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label30', opacity=1.0, ori=0.0, pos=array([-0.3 , -0.15]), rgb=UNKNOWN, text='30', units='height', win=Window(...), wrapWidth=1)
+46.7389 	EXP 	Created label40 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-11.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label40', opacity=1.0, ori=0.0, pos=array([-0.15, -0.15]), rgb=UNKNOWN, text='40', units='height', win=Window(...), wrapWidth=1)
+46.7417 	EXP 	Created label50 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-12.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label50', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.15]), rgb=UNKNOWN, text='50', units='height', win=Window(...), wrapWidth=1)
+46.7445 	EXP 	Created label60 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-13.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label60', opacity=1.0, ori=0.0, pos=array([ 0.15, -0.15]), rgb=UNKNOWN, text='60', units='height', win=Window(...), wrapWidth=1)
+46.7474 	EXP 	Created label70 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-14.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label70', opacity=1.0, ori=0.0, pos=array([ 0.3 , -0.15]), rgb=UNKNOWN, text='70', units='height', win=Window(...), wrapWidth=1)
+46.7503 	EXP 	Created label80 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-15.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label80', opacity=1.0, ori=0.0, pos=array([ 0.45, -0.15]), rgb=UNKNOWN, text='80', units='height', win=Window(...), wrapWidth=1)
+46.7533 	EXP 	Created label90 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-16.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label90', opacity=1.0, ori=0.0, pos=array([ 0.6 , -0.15]), rgb=UNKNOWN, text='90', units='height', win=Window(...), wrapWidth=1)
+46.7555 	EXP 	Created label100 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-17.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='label100', opacity=1.0, ori=0.0, pos=array([ 0.75, -0.15]), rgb=UNKNOWN, text='100', units='height', win=Window(...), wrapWidth=1)
+46.7565 	EXP 	Created instruction_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_text', opacity=1.0, ori=0.0, pos=array([0.  , 0.15]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+46.7580 	EXP 	Created continue_text_2 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.03, italic=False, languageStyle='LTR', name='continue_text_2', opacity=1.0, ori=0.0, pos=array([ 0.  , -0.25]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+46.7590 	EXP 	Created example_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='example_text', opacity=1.0, ori=0.0, pos=array([0. , 0.4]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+46.7639 	EXP 	window1: mouseVisible = True
+46.9900 	EXP 	Created example_slider_2 = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-1, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelColor=None, labelHeight=0.015, labelWrapWidth=None, labels=tuple(...), lineColor=None, markerColor=None, name='example_slider_2', opacity=None, ori=0.0, pos=array([ 0.  , -0.31]), readOnly=False, self=UNKNOWN, size=array([0.95, 0.06]), startValue=None, style='rating', styleTweaks=[], ticks=array([1, 2, 3, 4, 5]), units='height', win=Window(...))
+47.0126 	EXP 	Created example_image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='example_image', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), texRes=128.0, units='height', win=Window(...))
+47.0137 	EXP 	Created fixcross = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='fixcross', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+47.0151 	EXP 	Created front_square = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, fillColor=array([-0.051, -0.051, -0.051]), fillColorSpace='rgb', fillRGB=array([-0.051, -0.051, -0.051]), interpolate=True, lineColor=array([0., 0., 0.]), lineColorSpace='rgb', lineRGB=array([0, 0, 0]), lineWidth=1.0, name='front_square', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([0.5, 0.5]), units='height', vertices=ndarray(...), win=Window(...))
+47.0354 	EXP 	Created stim_images = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='stim_images', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.21333333, 0.21333333]), texRes=128.0, units='height', win=Window(...))
+47.0365 	EXP 	Created trial_inst_images = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.035, italic=False, languageStyle='LTR', name='trial_inst_images', opacity=1.0, ori=0.0, pos=array([0. , 0.4]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+47.0414 	EXP 	window1: mouseVisible = True
+47.1888 	EXP 	Created slider_images = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-4, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelColor=None, labelHeight=0.015, labelWrapWidth=None, labels=tuple(...), lineColor=None, markerColor=None, name='slider_images', opacity=None, ori=0.0, pos=array([ 0.  , -0.31]), readOnly=False, self=UNKNOWN, size=array([0.95, 0.06]), startValue=None, style='rating', styleTweaks=[], ticks=array([1, 2, 3, 4, 5]), units='height', win=Window(...))
+47.1897 	EXP 	Created fixcross = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='fixcross', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+47.1906 	EXP 	Created outro = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='outro', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+47.2306 	EXP 	VAS_slider: autoLog = True
+47.2306 	EXP 	VAS_slider: markerPos = None
+47.2306 	EXP 	VAS_slider: styleTweaks = []
+47.2306 	EXP 	VAS_slider: styleTweaks = []
+47.2306 	EXP 	VAS_slider: styleTweaks = []
+47.2306 	EXP 	VAS_slider: styleTweaks = []
+47.2306 	EXP 	VAS_slider: contrast = 1.0
+47.2306 	EXP 	VAS_slider: autoLog = True
+47.2306 	EXP 	example_slider_2: autoLog = True
+47.2306 	EXP 	example_slider_2: markerPos = None
+47.2306 	EXP 	example_slider_2: styleTweaks = []
+47.2306 	EXP 	example_slider_2: styleTweaks = []
+47.2306 	EXP 	example_slider_2: styleTweaks = []
+47.2306 	EXP 	example_slider_2: styleTweaks = []
+47.2306 	EXP 	example_slider_2: contrast = 1.0
+47.2306 	EXP 	example_slider_2: autoLog = True
+47.2306 	EXP 	slider_images: autoLog = True
+47.2306 	EXP 	slider_images: markerPos = None
+47.2306 	EXP 	slider_images: styleTweaks = []
+47.2306 	EXP 	slider_images: styleTweaks = []
+47.2306 	EXP 	slider_images: styleTweaks = []
+47.2306 	EXP 	slider_images: styleTweaks = []
+47.2306 	EXP 	slider_images: contrast = 1.0
+47.2306 	EXP 	slider_images: autoLog = True
+47.2306 	EXP 	VAS_slider: markerPos = None
+47.2306 	EXP 	VAS_slider: markerPos = None
+47.2306 	EXP 	VAS_slider: markerPos = 3
+47.2306 	EXP 	VAS_slider: autoDraw = True
+47.2306 	EXP 	VAS_text: autoDraw = True
+47.2306 	EXP 	VAS_notstressed_text: autoDraw = True
+47.2306 	EXP 	VAS_stressed_text: autoDraw = True
+47.2306 	EXP 	continue_text: autoDraw = True
+47.2306 	EXP 	label0: autoDraw = True
+47.2306 	EXP 	label10: autoDraw = True
+47.2306 	EXP 	label20: autoDraw = True
+47.2306 	EXP 	label30: autoDraw = True
+47.2306 	EXP 	label40: autoDraw = True
+47.2306 	EXP 	label50: autoDraw = True
+47.2306 	EXP 	label60: autoDraw = True
+47.2306 	EXP 	label70: autoDraw = True
+47.2306 	EXP 	label80: autoDraw = True
+47.2306 	EXP 	label90: autoDraw = True
+47.2306 	EXP 	label100: autoDraw = True
+48.3719 	DATA 	Mouse: Left button down, pos=(901,629)
+48.3963 	EXP 	VAS_slider: markerPos = 4.6722222222222225
+48.4127 	EXP 	VAS_slider: markerPos = 4.666666666666667
+48.4296 	EXP 	VAS_slider: markerPos = 4.666666666666667
+48.4461 	EXP 	VAS_slider: markerPos = 4.666666666666667
+48.4627 	EXP 	VAS_slider: markerPos = 4.6611111111111105
+48.4795 	EXP 	VAS_slider: markerPos = 4.6499999999999995
+48.4961 	EXP 	VAS_slider: markerPos = 4.605555555555555
+48.5128 	EXP 	VAS_slider: markerPos = 4.522222222222222
+48.5295 	EXP 	VAS_slider: markerPos = 4.361111111111111
+48.5462 	EXP 	VAS_slider: markerPos = 4.011111111111111
+48.5629 	EXP 	VAS_slider: markerPos = 3.5166666666666666
+48.5796 	EXP 	VAS_slider: markerPos = 2.988888888888889
+48.5963 	EXP 	VAS_slider: markerPos = 2.5444444444444447
+48.6131 	EXP 	VAS_slider: markerPos = 2.238888888888889
+48.6297 	EXP 	VAS_slider: markerPos = 2.238888888888889
+48.6465 	EXP 	VAS_slider: markerPos = 2.1999999999999997
+48.6629 	EXP 	VAS_slider: markerPos = 2.1444444444444444
+48.6797 	EXP 	VAS_slider: markerPos = 2.0666666666666664
+48.6963 	EXP 	VAS_slider: markerPos = 2.011111111111111
+48.7129 	EXP 	VAS_slider: markerPos = 1.983333333333333
+48.7296 	EXP 	VAS_slider: markerPos = 1.9722222222222223
+48.7464 	EXP 	VAS_slider: markerPos = 1.9500000000000002
+48.7630 	EXP 	VAS_slider: markerPos = 1.8944444444444448
+48.7798 	EXP 	VAS_slider: markerPos = 1.8277777777777775
+48.7964 	EXP 	VAS_slider: markerPos = 1.7277777777777774
+48.8130 	EXP 	VAS_slider: markerPos = 1.5444444444444443
+48.8298 	EXP 	VAS_slider: markerPos = 1.4277777777777771
+48.8542 	EXP 	VAS_slider: markerPos = 1.3277777777777777
+48.8695 	EXP 	VAS_slider: markerPos = 1.1777777777777776
+48.8835 	EXP 	VAS_slider: markerPos = 1.0944444444444446
+48.9088 	EXP 	VAS_slider: markerPos = 1.0277777777777781
+48.9338 	EXP 	VAS_slider: markerPos = 1.0166666666666668
+48.9491 	EXP 	VAS_slider: markerPos = 1.0055555555555555
+48.9624 	EXP 	VAS_slider: markerPos = 1.0055555555555555
+48.9767 	EXP 	VAS_slider: markerPos = 1.0055555555555555
+48.9902 	EXP 	VAS_slider: markerPos = 0.9999999999999998
+49.0036 	EXP 	VAS_slider: markerPos = 0.9999999999999998
+49.0172 	EXP 	VAS_slider: markerPos = 0.9999999999999998
+49.0307 	EXP 	VAS_slider: markerPos = 0.9999999999999998
+49.0466 	EXP 	VAS_slider: markerPos = 0.9944444444444445
+49.0632 	EXP 	VAS_slider: markerPos = 0.9888888888888892
+49.0801 	EXP 	VAS_slider: markerPos = 0.9833333333333333
+49.0984 	EXP 	VAS_slider: markerPos = 0.9777777777777774
+49.1287 	EXP 	VAS_slider: markerPos = 0.9666666666666668
+49.1446 	EXP 	VAS_slider: markerPos = 0.9611111111111109
+49.1582 	EXP 	VAS_slider: markerPos = 0.9555555555555556
+49.1836 	EXP 	VAS_slider: markerPos = 0.944444444444445
+49.2016 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.2149 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.2285 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.2536 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.2784 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.3034 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.3044 	DATA 	Mouse:  Left button up, pos=(229,619)
+49.3195 	EXP 	VAS_slider: markerPos = 0.9388888888888891
+49.3699 	EXP 	VAS_slider: autoDraw = False
+49.3699 	EXP 	VAS_text: autoDraw = False
+49.3699 	EXP 	VAS_notstressed_text: autoDraw = False
+49.3699 	EXP 	VAS_stressed_text: autoDraw = False
+49.3699 	EXP 	continue_text: autoDraw = False
+49.3699 	EXP 	label0: autoDraw = False
+49.3699 	EXP 	label10: autoDraw = False
+49.3699 	EXP 	label20: autoDraw = False
+49.3699 	EXP 	label30: autoDraw = False
+49.3699 	EXP 	label40: autoDraw = False
+49.3699 	EXP 	label50: autoDraw = False
+49.3699 	EXP 	label60: autoDraw = False
+49.3699 	EXP 	label70: autoDraw = False
+49.3699 	EXP 	label80: autoDraw = False
+49.3699 	EXP 	label90: autoDraw = False
+49.3699 	EXP 	label100: autoDraw = False
+49.3699 	EXP 	instruction_text: height = 0.05
+49.3699 	EXP 	instruction_text: height = 0.05
+49.3699 	EXP 	instruction_text: height = 0.05
+49.3699 	EXP 	instruction_text: text = 'Sie sehen nun einige Bilder. Sie müssen mit einem Maus-Schieberegler auswählen, ob Sie diese Bilder gestern bereits gesehen haben oder nicht.\n\nAuf der nachfolgenden Seite sehen Sie ein Beispiel.\n\n(Bitte antworten Sie schnell, da Sie 5 Sekunden Zeit haben, um jede Frage zu beantworten.)'
+49.3699 	EXP 	continue_text_2: height = 0.03
+49.3699 	EXP 	continue_text_2: height = 0.03
+49.3699 	EXP 	continue_text_2: height = 0.03
+49.3699 	EXP 	continue_text_2: text = 'Drücken Sie "Leertaste", um die Aufgabe zu starten.'
+49.3699 	EXP 	instruction_text: autoDraw = True
+49.3699 	EXP 	continue_text_2: autoDraw = True
+50.3859 	DATA 	Mouse: wheel shift=(0,-1), pos=(1366,732)
+65.5675 	DATA 	Keypress: space
+65.5883 	EXP 	instruction_text: autoDraw = False
+65.5883 	EXP 	continue_text_2: autoDraw = False
+65.5883 	EXP 	example_text: height = 0.035
+65.5883 	EXP 	example_text: height = 0.035
+65.5883 	EXP 	example_text: height = 0.035
+65.5883 	EXP 	example_text: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+65.5883 	EXP 	example_slider_2: markerPos = None
+65.5883 	EXP 	example_slider_2: markerPos = None
+65.5883 	EXP 	example_image: image = 'C:/Users/ap2mitarbeiter.AP2-4022-1/Desktop/ReMunS/Surprise recog test/example_img/neutral_119.jpg'
+65.5883 	EXP 	example_text: autoDraw = True
+65.5883 	EXP 	example_slider_2: autoDraw = True
+65.5883 	EXP 	example_image: autoDraw = True
+73.6693 	DATA 	Mouse: Left button down, pos=(1521,228)
+73.6845 	EXP 	example_slider_2: markerPos = 4.968421052631578
+73.7009 	EXP 	example_slider_2: markerPos = 4.968421052631578
+73.7177 	EXP 	example_slider_2: markerPos = 4.968421052631578
+73.7345 	EXP 	example_slider_2: markerPos = 4.968421052631578
+73.7358 	DATA 	Mouse:  Left button up, pos=(1521,228)
+73.7507 	EXP 	example_slider_2: markerPos = 5.0
+73.7668 	EXP 	example_text: autoDraw = False
+73.7668 	EXP 	example_slider_2: autoDraw = False
+73.7668 	EXP 	example_image: autoDraw = False
+73.7668 	EXP 	fixcross: height = 0.05
+73.7668 	EXP 	fixcross: height = 0.05
+73.7668 	EXP 	fixcross: height = 0.05
+73.7668 	EXP 	fixcross: text = '+'
+73.7668 	EXP 	fixcross: autoDraw = True
+74.7565 	EXP 	Created sequence: random, trialTypes=1, nReps=400, seed=None
+74.7583 	EXP 	New trial (rep=0, index=0): None
+74.7913 	EXP 	fixcross: autoDraw = False
+74.7913 	EXP 	fixcross: autoDraw = False
+74.7913 	EXP 	trial_inst_images: height = 0.035
+74.7913 	EXP 	trial_inst_images: height = 0.035
+74.7913 	EXP 	trial_inst_images: height = 0.035
+74.7913 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+74.7913 	EXP 	slider_images: markerPos = None
+74.7913 	EXP 	slider_images: markerPos = None
+74.7913 	EXP 	front_square: autoDraw = True
+74.7913 	EXP 	stim_images: autoDraw = True
+74.7913 	EXP 	trial_inst_images: autoDraw = True
+74.7913 	EXP 	slider_images: autoDraw = True
+75.5536 	DATA 	Mouse: Left button down, pos=(951,223)
+75.5694 	EXP 	slider_images: markerPos = 2.968421052631579
+75.5867 	EXP 	slider_images: markerPos = 2.968421052631579
+75.6039 	EXP 	slider_images: markerPos = 2.968421052631579
+75.6196 	EXP 	slider_images: markerPos = 2.968421052631579
+75.6254 	DATA 	Mouse:  Left button up, pos=(951,224)
+75.6359 	EXP 	slider_images: markerPos = 3.0
+75.6468 	EXP 	front_square: autoDraw = False
+75.6468 	EXP 	stim_images: autoDraw = False
+75.6468 	EXP 	trial_inst_images: autoDraw = False
+75.6468 	EXP 	slider_images: autoDraw = False
+75.6468 	EXP 	fixcross: text = '+'
+75.6468 	EXP 	fixcross: autoDraw = True
+76.6372 	EXP 	New trial (rep=1, index=0): None
+76.6574 	EXP 	fixcross: autoDraw = False
+76.6574 	EXP 	fixcross: autoDraw = False
+76.6574 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+76.6574 	EXP 	slider_images: markerPos = None
+76.6574 	EXP 	slider_images: markerPos = None
+76.6574 	EXP 	front_square: autoDraw = True
+76.6574 	EXP 	stim_images: autoDraw = True
+76.6574 	EXP 	trial_inst_images: autoDraw = True
+76.6574 	EXP 	slider_images: autoDraw = True
+77.0864 	DATA 	Mouse: Left button down, pos=(951,223)
+77.0968 	EXP 	slider_images: markerPos = 2.968421052631579
+77.1129 	EXP 	slider_images: markerPos = 2.968421052631579
+77.1289 	EXP 	slider_images: markerPos = 2.968421052631579
+77.1448 	EXP 	slider_images: markerPos = 2.968421052631579
+77.1506 	DATA 	Mouse:  Left button up, pos=(951,223)
+77.1611 	EXP 	slider_images: markerPos = 3.0
+77.1742 	EXP 	front_square: autoDraw = False
+77.1742 	EXP 	stim_images: autoDraw = False
+77.1742 	EXP 	trial_inst_images: autoDraw = False
+77.1742 	EXP 	slider_images: autoDraw = False
+77.1742 	EXP 	fixcross: text = '+'
+77.1742 	EXP 	fixcross: autoDraw = True
+78.1725 	EXP 	New trial (rep=2, index=0): None
+78.1962 	EXP 	fixcross: autoDraw = False
+78.1962 	EXP 	fixcross: autoDraw = False
+78.1962 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+78.1962 	EXP 	slider_images: markerPos = None
+78.1962 	EXP 	slider_images: markerPos = None
+78.1962 	EXP 	front_square: autoDraw = True
+78.1962 	EXP 	stim_images: autoDraw = True
+78.1962 	EXP 	trial_inst_images: autoDraw = True
+78.1962 	EXP 	slider_images: autoDraw = True
+78.6796 	DATA 	Mouse: Left button down, pos=(954,217)
+78.6961 	EXP 	slider_images: markerPos = 2.9789473684210526
+78.7137 	EXP 	slider_images: markerPos = 2.9789473684210526
+78.7300 	EXP 	slider_images: markerPos = 2.9789473684210526
+78.7581 	EXP 	slider_images: markerPos = 2.9789473684210526
+78.7644 	DATA 	Mouse:  Left button up, pos=(954,217)
+78.7752 	EXP 	slider_images: markerPos = 3.0
+78.7882 	EXP 	front_square: autoDraw = False
+78.7882 	EXP 	stim_images: autoDraw = False
+78.7882 	EXP 	trial_inst_images: autoDraw = False
+78.7882 	EXP 	slider_images: autoDraw = False
+78.7882 	EXP 	fixcross: text = '+'
+78.7882 	EXP 	fixcross: autoDraw = True
+79.7778 	EXP 	New trial (rep=3, index=0): None
+79.8149 	EXP 	fixcross: autoDraw = False
+79.8149 	EXP 	fixcross: autoDraw = False
+79.8149 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+79.8149 	EXP 	slider_images: markerPos = None
+79.8149 	EXP 	slider_images: markerPos = None
+79.8149 	EXP 	front_square: autoDraw = True
+79.8149 	EXP 	stim_images: autoDraw = True
+79.8149 	EXP 	trial_inst_images: autoDraw = True
+79.8149 	EXP 	slider_images: autoDraw = True
+80.1775 	DATA 	Mouse: Left button down, pos=(952,217)
+80.1878 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2037 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2196 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2354 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2513 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2811 	EXP 	slider_images: markerPos = 2.9719298245614034
+80.2898 	DATA 	Mouse:  Left button up, pos=(952,217)
+80.3010 	EXP 	slider_images: markerPos = 3.0
+80.3122 	EXP 	front_square: autoDraw = False
+80.3122 	EXP 	stim_images: autoDraw = False
+80.3122 	EXP 	trial_inst_images: autoDraw = False
+80.3122 	EXP 	slider_images: autoDraw = False
+80.3122 	EXP 	fixcross: text = '+'
+80.3122 	EXP 	fixcross: autoDraw = True
+81.3102 	EXP 	New trial (rep=4, index=0): None
+81.3422 	EXP 	fixcross: autoDraw = False
+81.3422 	EXP 	fixcross: autoDraw = False
+81.3422 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+81.3422 	EXP 	slider_images: markerPos = None
+81.3422 	EXP 	slider_images: markerPos = None
+81.3422 	EXP 	front_square: autoDraw = True
+81.3422 	EXP 	stim_images: autoDraw = True
+81.3422 	EXP 	trial_inst_images: autoDraw = True
+81.3422 	EXP 	slider_images: autoDraw = True
+82.0366 	DATA 	Mouse: Left button down, pos=(952,217)
+82.0679 	EXP 	slider_images: markerPos = 2.9719298245614034
+82.0851 	EXP 	slider_images: markerPos = 2.9719298245614034
+82.1131 	EXP 	slider_images: markerPos = 2.9719298245614034
+82.1303 	EXP 	slider_images: markerPos = 2.9719298245614034
+82.1443 	DATA 	Mouse:  Left button up, pos=(952,217)
+82.1470 	EXP 	slider_images: markerPos = 2.9719298245614034
+82.1645 	EXP 	slider_images: markerPos = 3.0
+82.1778 	EXP 	front_square: autoDraw = False
+82.1778 	EXP 	stim_images: autoDraw = False
+82.1778 	EXP 	trial_inst_images: autoDraw = False
+82.1778 	EXP 	slider_images: autoDraw = False
+82.1778 	EXP 	fixcross: text = '+'
+82.1778 	EXP 	fixcross: autoDraw = True
+83.1794 	EXP 	New trial (rep=5, index=0): None
+83.2062 	DATA 	Keypress: escape
+83.2161 	EXP 	fixcross: autoDraw = False
+83.2161 	EXP 	trial_inst_images: text = 'Sie müssen mit dem Maus-Schieberegler auswählen, ob Sie dieses Bild letzte Woche gesehen haben.'
+83.2161 	EXP 	slider_images: markerPos = None
+83.2161 	EXP 	slider_images: markerPos = None
+83.2161 	EXP 	front_square: autoDraw = True
+83.2161 	EXP 	stim_images: autoDraw = True
+83.2161 	EXP 	trial_inst_images: autoDraw = True
+83.2161 	EXP 	slider_images: autoDraw = True
+83.6709 	EXP 	window1: mouseVisible = True

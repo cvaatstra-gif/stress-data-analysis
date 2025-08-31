@@ -61,7 +61,7 @@ fragebogen_clean %>%
 t.test(RRS_Score ~ Geschlecht, data = fragebogen_clean)
 #nicht signifikant
 
-View(fragebogen_clean)
+
 
 #____________________________
 #bp_vas_clean erstellen und bereinigen
@@ -173,7 +173,7 @@ mittelwerte <- bp_vas_clean %>%
 gesamt1 <- left_join(fragebogen_clean, mittelwerte, by = "ID")
 
 
-gesamt1 <- gesamt %>%
+gesamt1 <- gesamt1 %>%
   select(-starts_with("RRS..."))
 
 
@@ -181,8 +181,7 @@ summary(gesamt1$RRS_Score)
 
 #Conditions 
 con <- read_excel("cond_overview.xlsx")
-View(con)
-names(con)
+
 
 # Erstmal sicherstellen, dass beide IDs als character vorliegen
 con$ID <- as.character(con$ID)
@@ -201,9 +200,6 @@ gesamt1 <- gesamt1 %>%
 gesamt1 <- left_join(gesamt1, con[, c("ID", "Condition")], by = "ID")
 gesamt1 <- gesamt1 %>%
   select(-matches("^Condition"))
-
-View(gesamt1)
-names(gesamt1)
 
 
 # Dann wie geplant aufteilen
