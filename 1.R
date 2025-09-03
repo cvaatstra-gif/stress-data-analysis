@@ -206,7 +206,7 @@ gesamt1 <- left_join(gesamt1, select(con, ID, Condition), by = "ID") %>%
   ) %>%
   select(-Condition)
 
-
+names(gesamt1)
 
 #Wurde RSS gut aufgeteilt? Unterscheiden sich die Mittelwerte signifikant?
 t.test(RRS_Score ~ Treatment, data = gesamt1)
@@ -277,307 +277,416 @@ anova_puls <- ezANOVA(
 print(anova_puls)
 
 
-
-names(gesamt1)
-
+#### Puls_Arithm
 
 
-# 1) Stress-Mittelwert pro VP bilden (über die gewünschten Stress-Phasen)
-stress_vars <- c("Pulse_PostTSST", "Pulse_Interview", 
-                 "Pulse_Enc1", "Pulse_Arithm", "Pulse_Enc2")
-
-dat_pulse_agg <- gesamt1 %>%
-  mutate(
-    # Anzahl vorhandener Stress-Zeitpunkte (optional für QC)
-    n_stress_available = rowSums(!is.na(across(all_of(stress_vars)))),
-    # Mittelwert über Stress-Zeitpunkte (mind. 1 Wert nötig)
-    Pulse_StressMean = rowMeans(across(all_of(stress_vars)), na.rm = TRUE)
-  )
-
-# 2) Long-Format: Baseline vs. StressMean
-pulse_agg_long <- dat_pulse_agg %>%
-  select(ID, Treatment, Pulse_Baseline, Pulse_StressMean, n_stress_available) %>%
+# Long-Format für Puls (Baseline vs. Arithm)
+pulse_arithm_long <- gesamt1 %>%
+  select(ID, Treatment, Pulse_Baseline, Pulse_Arithm) %>%
   pivot_longer(
-    cols = c(Pulse_Baseline, Pulse_StressMean),
+    cols = c(Pulse_Baseline, Pulse_Arithm),
     names_to = "Zeitpunkt",
     values_to = "Puls"
   ) %>%
   mutate(
     Zeitpunkt = recode(Zeitpunkt,
-                       "Pulse_Baseline"   = "Baseline",
-                       "Pulse_StressMean" = "StressMean"),
+                       "Pulse_Baseline" = "Baseline",
+                       "Pulse_Arithm"   = "Arithm"),
     ID        = as.factor(ID),
     Treatment = as.factor(Treatment),
-    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "Arithm"))
   )
 
-# 3) (Optional) Übersicht: Stichprobenzahlen je ZP x Treatment (ohne NAs in Puls)
-pulse_agg_long %>%
+# Stichprobenzahlen je Zeitpunkt x Treatment (ohne NAs)
+pulse_arithm_long %>%
   filter(!is.na(Puls)) %>%
   group_by(Zeitpunkt, Treatment) %>%
   summarise(n = n_distinct(ID), .groups = "drop") %>%
   pivot_wider(names_from = Treatment, values_from = n, names_prefix = "Treatment_")
 
-# 4) Nur VP behalten, die für beide Zeitpunkte (Baseline & StressMean) Werte haben
-pulse_agg_long_clean <- pulse_agg_long %>%
+# Nur VP mit vollständigen Daten behalten
+pulse_arithm_long_clean <- pulse_arithm_long %>%
   group_by(ID) %>%
   filter(!any(is.na(Puls))) %>%
   ungroup()
 
-# 5) Mixed ANOVA: within = Zeitpunkt (Baseline vs. StressMean), between = Treatment
-anova_pulse_agg <- ezANOVA(
-  data = pulse_agg_long_clean,
-  dv   = Puls,
-  wid  = ID,
+# Mixed ANOVA (within: Zeitpunkt; between: Treatment)
+anova_pulse_arithm <- ezANOVA(
+  data    = pulse_arithm_long_clean,
+  dv      = Puls,
+  wid     = ID,
   within  = .(Zeitpunkt),
   between = .(Treatment),
-  type = 3,
+  type    = 3,
   detailed = TRUE
 )
 
-print(anova_pulse_agg)
+print(anova_pulse_arithm)
 
+#Despreptive Sttatistik
+pulse_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Puls, na.rm=TRUE), 1),
+            SD = round(sd(Puls, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
+pulse_arithm_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Puls, na.rm=TRUE), 1),
+            SD = round(sd(Puls, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
 
-#Zeitpunkt   1  41 1.406694e+02  596.3087 9.671911e+00 3.397994e-03     * 0.0148621183
-#Treatment:Zeitpunkt   1  41 1.069578e+02  596.3087 7.354023e+00 9.732437e-03     * 0.0113407824
 
 
 ########################### Systole
 
-# 1) Stress-Mittelwert pro VP bilden (über die gewünschten Stress-Phasen)
-systole_vars <- c("Sys_PostTSST", "Sys_Interview", 
-                 "Sys_Enc1", "Sys_Arithm", "Sys_Enc2")
+# === SYSTOLE: Baseline vs. Interview ===
 
-dat_sys_agg <- gesamt1 %>%
-  mutate(
-    # Anzahl vorhandener Stress-Zeitpunkte (optional für QC)
-    n_stress_available = rowSums(!is.na(across(all_of(systole_vars)))),
-    # Mittelwert über Stress-Zeitpunkte (mind. 1 Wert nötig)
-    Sys_StressMean = rowMeans(across(all_of(systole_vars)), na.rm = TRUE)
-  )
-
-
-# 2) Long-Format: Baseline vs. StressMean
-systole_agg_long <- dat_sys_agg %>%
-  select(ID, Treatment, Sys_Baseline, Sys_StressMean, n_stress_available) %>%
+sys_int_long <- gesamt1 %>%
+  select(ID, Treatment, Sys_Baseline, Sys_Interview) %>%
   pivot_longer(
-    cols = c(Sys_Baseline, Sys_StressMean),
+    cols = c(Sys_Baseline, Sys_Interview),
     names_to = "Zeitpunkt",
     values_to = "Systole"
   ) %>%
   mutate(
     Zeitpunkt = recode(Zeitpunkt,
-                       "Sys_Baseline"   = "Baseline",
-                       "Sys_StressMean" = "StressMean"),
+                       "Sys_Baseline"  = "Baseline",
+                       "Sys_Interview" = "Interview"),
     ID        = as.factor(ID),
     Treatment = as.factor(Treatment),
-    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline","Interview"))
   )
 
-# Nur VP behalten, die für beide Zeitpunkte (Baseline & StressMean) Werte haben
-systole_agg_long_clean <- systole_agg_long %>%
+# (optional) Zelln
+sys_int_long %>%
+  filter(!is.na(Systole)) %>%
+  group_by(Zeitpunkt, Treatment) %>%
+  summarise(n = n_distinct(ID), .groups="drop")
+
+# vollständige Fälle
+sys_int_long_clean <- sys_int_long %>%
   group_by(ID) %>%
   filter(!any(is.na(Systole))) %>%
   ungroup()
 
-# Mixed ANOVA
-anova_systole_agg <- ezANOVA(
-  data = systole_agg_long_clean,
-  dv   = Systole,
-  wid  = ID,
+anova_sys_int <- ezANOVA(
+  data    = sys_int_long_clean,
+  dv      = Systole,
+  wid     = ID,
   within  = .(Zeitpunkt),
   between = .(Treatment),
-  type = 3,
+  type    = 3,
   detailed = TRUE
 )
+print(anova_sys_int)
 
-print(anova_systole_agg)
+# Deskriptivwerte
+sys_int_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Systole, na.rm=TRUE), 1),
+            SD = round(sd(Systole, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
 
-###############################  Dystole
 
+# 
+# === SYSTOLE: Baseline vs. Arithm ===
 
-# Stress-Phasen definieren (Diastole)
-dia_vars <- c("Dia_PostTSST", "Dia_Interview", 
-              "Dia_Enc1", "Dia_Arithm", "Dia_Enc2")
-
-dat_dia_agg <- gesamt1 %>%
+sys_ari_long <- gesamt1 %>%
+  select(ID, Treatment, Sys_Baseline, Sys_Arithm) %>%
+  pivot_longer(
+    cols = c(Sys_Baseline, Sys_Arithm),
+    names_to = "Zeitpunkt",
+    values_to = "Systole"
+  ) %>%
   mutate(
-    n_stress_available = rowSums(!is.na(across(all_of(dia_vars)))),
-    Dia_StressMean = rowMeans(across(all_of(dia_vars)), na.rm = TRUE)
+    Zeitpunkt = recode(Zeitpunkt,
+                       "Sys_Baseline" = "Baseline",
+                       "Sys_Arithm"   = "Arithm"),
+    ID        = as.factor(ID),
+    Treatment = as.factor(Treatment),
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline","Arithm"))
   )
 
-# Long-Format: Baseline vs. StressMean
-dia_agg_long <- dat_dia_agg %>%
-  select(ID, Treatment, Dia_Baseline, Dia_StressMean, n_stress_available) %>%
+# (optional) Zelln
+sys_ari_long %>%
+  filter(!is.na(Systole)) %>%
+  group_by(Zeitpunkt, Treatment) %>%
+  summarise(n = n_distinct(ID), .groups="drop")
+
+# vollständige Fälle
+sys_ari_long_clean <- sys_ari_long %>%
+  group_by(ID) %>%
+  filter(!any(is.na(Systole))) %>%
+  ungroup()
+
+anova_sys_ari <- ezANOVA(
+  data    = sys_ari_long_clean,
+  dv      = Systole,
+  wid     = ID,
+  within  = .(Zeitpunkt),
+  between = .(Treatment),
+  type    = 3,
+  detailed = TRUE
+)
+print(anova_sys_ari)
+
+# Deskriptivwerte
+sys_ari_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Systole, na.rm=TRUE), 1),
+            SD = round(sd(Systole, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
+# Dystole 
+
+# === DIASTOLE: Baseline vs. Interview ===
+
+
+dia_int_long <- gesamt1 %>%
+  select(ID, Treatment, Dia_Baseline, Dia_Interview) %>%
   pivot_longer(
-    cols = c(Dia_Baseline, Dia_StressMean),
+    cols = c(Dia_Baseline, Dia_Interview),
     names_to = "Zeitpunkt",
     values_to = "Diastole"
   ) %>%
   mutate(
     Zeitpunkt = recode(Zeitpunkt,
-                       "Dia_Baseline"   = "Baseline",
-                       "Dia_StressMean" = "StressMean"),
+                       "Dia_Baseline"  = "Baseline",
+                       "Dia_Interview" = "Interview"),
     ID        = as.factor(ID),
     Treatment = as.factor(Treatment),
-    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline", "StressMean"))
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline","Interview"))
   )
 
-# Nur VP mit vollständigen Daten behalten
-dia_agg_long_clean <- dia_agg_long %>%
+# vollständige Fälle
+dia_int_long_clean <- dia_int_long %>%
   group_by(ID) %>%
   filter(!any(is.na(Diastole))) %>%
   ungroup()
 
-# Mixed ANOVA: within = Zeitpunkt, between = Treatment
-anova_dia_agg <- ezANOVA(
-  data = dia_agg_long_clean,
-  dv   = Diastole,
-  wid  = ID,
+anova_dia_int <- ezANOVA(
+  data    = dia_int_long_clean,
+  dv      = Diastole,
+  wid     = ID,
   within  = .(Zeitpunkt),
   between = .(Treatment),
-  type = 3,
+  type    = 3,
   detailed = TRUE
 )
+print(anova_dia_int)
 
-print(anova_dia_agg)
+# Deskriptivwerte
+dia_int_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Diastole, na.rm=TRUE), 1),
+            SD = round(sd(Diastole, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
 
-library(dplyr)
-library(tidyr)
 
-# Optional: Welche IDs haben fehlendes Treatment?
-pulse_agg_long_clean %>%
-  filter(is.na(Treatment)) %>%
-  distinct(ID) %>% arrange(ID)
 
-# Helper-Funktion: fasst M ± SD (n) pro Treatment x Zeitpunkt zusammen und pivotiert wide
-make_summary_table <- function(df, value_col) {
-  df %>%
-    filter(!is.na(Treatment)) %>%                                 # NA-Treatment raus
-    mutate(Treatment = dplyr::recode_factor(as.character(Treatment),
-                                            `0` = "Kontrolle",
-                                            `1` = "Stress")) %>%   # Labels
-    group_by(Treatment, Zeitpunkt) %>%
-    summarise(
-      M  = mean(.data[[value_col]], na.rm = TRUE),
-      SD = sd(  .data[[value_col]], na.rm = TRUE),
-      n  = dplyr::n_distinct(ID),
-      .groups = "drop"
-    ) %>%
-    mutate(stat = sprintf("%.1f ± %.1f (n=%d)", M, SD, n)) %>%
-    select(Treatment, Zeitpunkt, stat) %>%
-    pivot_wider(names_from = Zeitpunkt, values_from = stat) %>%
-    arrange(Treatment)
-}
+# === DIASTOLE: Baseline vs. Arithm ===
 
-# Tabellen bauen
-pulse_table    <- make_summary_table(pulse_agg_long_clean,   "Puls")
-systole_table  <- make_summary_table(systole_agg_long_clean, "Systole")
-dia_table      <- make_summary_table(dia_agg_long_clean,     "Diastole")
 
-# Anzeigen
-pulse_table
-systole_table
-dia_table
+dia_ari_long <- gesamt1 %>%
+  select(ID, Treatment, Dia_Baseline, Dia_Arithm) %>%
+  pivot_longer(
+    cols = c(Dia_Baseline, Dia_Arithm),
+    names_to = "Zeitpunkt",
+    values_to = "Diastole"
+  ) %>%
+  mutate(
+    Zeitpunkt = recode(Zeitpunkt,
+                       "Dia_Baseline" = "Baseline",
+                       "Dia_Arithm"   = "Arithm"),
+    ID        = as.factor(ID),
+    Treatment = as.factor(Treatment),
+    Zeitpunkt = factor(Zeitpunkt, levels = c("Baseline","Arithm"))
+  )
+
+# vollständige Fälle
+dia_ari_long_clean <- dia_ari_long %>%
+  group_by(ID) %>%
+  filter(!any(is.na(Diastole))) %>%
+  ungroup()
+
+anova_dia_ari <- ezANOVA(
+  data    = dia_ari_long_clean,
+  dv      = Diastole,
+  wid     = ID,
+  within  = .(Zeitpunkt),
+  between = .(Treatment),
+  type    = 3,
+  detailed = TRUE
+)
+print(anova_dia_ari)
+
+# Deskriptivwerte
+dia_ari_long_clean %>%
+  group_by(Treatment, Zeitpunkt) %>%
+  summarise(M = round(mean(Diastole, na.rm=TRUE), 1),
+            SD = round(sd(Diastole, na.rm=TRUE), 1),
+            n = dplyr::n_distinct(ID), .groups="drop")
+
+
 
 
 ######################################## H1 
-#Trait-Rumination sagt das subjektive Stresserleben in der Stressbedingung stärker vorher als in der Kontrollbedingung. 
+#h1: Trait-Rumination sagt das subjektive Stresserleben in der Stressbedingung stärker vorher als in der Kontrollbedingung. 
 
 
+library(dplyr)
+library(lmtest); library(sandwich)
+library(emmeans)
+library(broom)
+library(purrr)
+library(ggplot2)
 
-# 1) Subjektiven Stress bilden (Mittel aus VAS_1..VAS_3)
-dat_h1 <- gesamt1 %>%
-  mutate(
-    SubjStress   = rowMeans(across(c(VAS_1, VAS_2, VAS_3)), na.rm = TRUE),
-    Treatment01  = ifelse(Treatment == 1, 1, 0),
-    Treatment_f  = factor(Treatment01, levels = c(0,1), labels = c("Kontrolle","Stress")),
-    RRS_z        = as.numeric(scale(RRS_Score, center = TRUE, scale = TRUE)),
-    SubjStress_z = as.numeric(scale(SubjStress,   center = TRUE, scale = TRUE))
+items <- c("VAS_1","VAS_2","VAS_3")
+
+fit_one <- function(item) {
+  dat <- gesamt1 %>%
+    transmute(
+      ID,
+      Treatment_f = factor(ifelse(Treatment==1,1,0), c(0,1), c("Kontrolle","Stress")),
+      RRS_z       = as.numeric(scale(RRS_Score)),
+      DV_z        = as.numeric(scale(.data[[item]]))
+    ) %>%
+    filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(DV_z))
+  
+  m <- lm(DV_z ~ RRS_z * Treatment_f, data = dat)
+  V <- sandwich::vcovHC(m, type="HC3")
+  
+  # Koeffizienten (robust) tidy
+  ct <- lmtest::coeftest(m, vcov = V)
+  tid <- broom::tidy(ct) %>%
+    mutate(item = item)
+  
+  # Simple slopes für RRS_z je Gruppe
+  ss <- emmeans::emtrends(m, ~ Treatment_f, var = "RRS_z") %>%
+    summary(infer = TRUE) %>%
+    as.data.frame() %>%
+    transmute(item = item,
+              Treatment_f,
+              slope = RRS_z.trend, SE = SE, df = df,
+              t = t.ratio, p = p.value,
+              lower = lower.CL, upper = upper.CL)
+  
+  list(model = m, coefs = tid, slopes = ss)
+}
+
+res <- map(items, fit_one)
+
+# 1) Tabelle: Interaktion pro Item (HC3-robust)
+tab_int <- map_dfr(res, ~ .x$coefs) %>%
+  filter(term == "RRS_z:Treatment_fStress") %>%
+  transmute(
+    Item = item,
+    b = estimate, SE = std.error, t = statistic, p = p.value
   ) %>%
-  filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(SubjStress_z))
+  arrange(Item) %>%
+  mutate(p_BH = p.adjust(p, method = "BH"))
 
-# 2) Modell: Interaktion Rumination × Treatment
-m_h1 <- lm(SubjStress_z ~ RRS_z * Treatment_f, data = dat_h1)
+tab_int
 
-# 3) Robuste Standardfehler (HC3)
-lmtest::coeftest(m_h1, vcov = sandwich::vcovHC(m_h1, type = "HC3"))
+# 2) Tabelle: Simple Slopes je Item & Gruppe
+tab_slopes <- map_dfr(res, ~ .x$slopes)
+tab_slopes
 
-# 4) Simple Slopes (Steigung von RRS in jeder Gruppe + Unterschied)
-emtrends(m_h1, ~ Treatment_f, var = "RRS_z") %>% summary(infer = TRUE)
-pairs(emtrends(m_h1, ~ Treatment_f, var = "RRS_z"))
+# 3) (optional) hübscher Plot je Item
+dat_plot <- gesamt1 %>%
+  mutate(
+    Treatment_f = factor(ifelse(Treatment==1,1,0), c(0,1), c("Kontrolle","Stress")),
+    RRS_z       = as.numeric(scale(RRS_Score)),
+    VAS_1_z = as.numeric(scale(VAS_1)),
+    VAS_2_z = as.numeric(scale(VAS_2)),
+    VAS_3_z = as.numeric(scale(VAS_3))
+  ) %>%
+  tidyr::pivot_longer(cols = c(VAS_1_z, VAS_2_z, VAS_3_z),
+                      names_to = "Item", values_to = "DV_z")
 
-# 5) Plot zur Veranschaulichung
-ggplot(dat_h1, aes(RRS_z, SubjStress_z, color = Treatment_f)) +
-  geom_point(alpha = .5) +
-  geom_smooth(method = "lm", se = TRUE) +
-  labs(x = "Trait-Rumination (z)", y = "Subjektiver Stress (z)", color = "Treatment") +
+ggplot(dat_plot, aes(RRS_z, DV_z, color = Treatment_f)) +
+  geom_point(alpha=.4) +
+  geom_smooth(method="lm", se=TRUE) +
+  facet_wrap(~ Item, nrow = 1) +
+  labs(x="Trait-Rumination (z)", y="VAS (z)", color="Treatment") +
   theme_minimal()
 
-# H1 mit RRS und Puls
 
-library(dplyr); library(lmtest); library(sandwich); library(emmeans); library(ggplot2)
 
-Pulse_StressMean <- c("Pulse_PostTSST","Pulse_Interview","Pulse_Enc1","Pulse_Arithm","Pulse_Enc2")
 
-dat_pulse <- gesamt1 %>%
-  mutate(
-    Pulse_StressMean = rowMeans(across(all_of(stress_vars)), na.rm = TRUE),
-    DeltaPulse       = Pulse_StressMean - Pulse_Baseline,
-    Treatment_f      = factor(ifelse(Treatment==1,1,0), levels=c(0,1), labels=c("Kontrolle","Stress")),
-    RRS_z            = as.numeric(scale(RRS_Score)),
-    DeltaPulse_z     = as.numeric(scale(DeltaPulse))
+
+
+
+
+library(sandwich); library(lmtest)
+
+dat_long <- gesamt1 %>%
+  transmute(
+    ID,
+    Treatment_f = factor(ifelse(Treatment==1,1,0), c(0,1), c("Kontrolle","Stress")),
+    RRS_z       = as.numeric(scale(RRS_Score)),
+    VAS_1, VAS_2, VAS_3
   ) %>%
-  filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(DeltaPulse_z))
+  tidyr::pivot_longer(cols = c(VAS_1, VAS_2, VAS_3),
+                      names_to = "Item", values_to = "VAS") %>%
+  filter(!is.na(VAS)) %>%
+  mutate(VAS_z = as.numeric(scale(VAS)),
+         Item  = factor(Item))
 
-m_pulse_delta <- lm(DeltaPulse_z ~ RRS_z * Treatment_f, data = dat_pulse)
-coeftest(m_pulse_delta, vcov = vcovHC(m_pulse_delta, type = "HC3"))
+m_long <- lm(VAS_z ~ RRS_z * Treatment_f * Item, data = dat_long)
 
-# Simple slopes (Steigung von RRS in jeder Gruppe + Unterschied)
-emtrends(m_pulse_delta, ~ Treatment_f, var = "RRS_z") %>% summary(infer = TRUE)
-pairs(emtrends(m_pulse_delta, ~ Treatment_f, var = "RRS_z"))
+# Cluster-robuste Kovarianzmatrix (ID)
+V_cl <- sandwich::vcovCL(m_long, cluster = ~ ID, type = "HC3")
 
-# Plot
-ggplot(dat_pulse, aes(RRS_z, DeltaPulse_z, color = Treatment_f)) +
-  geom_point(alpha=.5) + geom_smooth(method="lm", se=TRUE) +
-  labs(x="Trait-Rumination (z)", y="ΔPuls (z)", color="Treatment")
+# Gesamt-ANOVA artig (Waldtest) für alle Terme mit robusten SEs:
+lmtest::coeftest(m_long, vcov = V_cl)
 
-
-
-# Pulse_StressMean ~ Pulse_Baseline + RRS_z * Treatment_f  (robuste SEs)
-m_pulse_ancova <- lm(scale(Pulse_StressMean) ~ scale(Pulse_Baseline) + 
-                       scale(RRS_Score) * Treatment_f, data = gesamt1)
-lmtest::coeftest(m_pulse_ancova, vcov = sandwich::vcovHC(m_pulse_ancova, type="HC3"))
-emmeans::pairs(emmeans::emtrends(m_pulse_ancova, ~ Treatment_f, var="scale(RRS_Score)"))
-
-psych::alpha(gesamt1[, c("VAS_1","VAS_2","VAS_3")])
-
-car::vif(m_h1)            # Multikollinearität
-bptest(m_h1)              # Breusch-Pagan (wir nutzen ohnehin HC3)
-plot(m_h1, which=1:2)     # Residuen / QQ
+# Omnibus: unterscheidet sich die Moderation über Items?
+# -> Teste alle 'RRS_z:Treatment_fStress:Item...' gemeinsam:
+car::linearHypothesis(m_long,
+                      c("RRS_z:Treatment_fStress:ItemVAS_2 = 0",
+                        "RRS_z:Treatment_fStress:ItemVAS_3 = 0"),
+                      vcov = V_cl
+)
 
 
-car::vif(m_h1, type = "predictor")
+library(dplyr); library(broom); library(sandwich); library(lmtest); library(purrr)
 
-dat_h1_ec <- gesamt1 %>%
+items <- c("VAS_1","VAS_2","VAS_3")
+
+fit_int <- function(item){
+  dat <- gesamt1 %>%
+    transmute(Treatment_f = factor(ifelse(Treatment==1,1,0), c(0,1), c("Kontrolle","Stress")),
+              RRS_z = as.numeric(scale(RRS_Score)),
+              DV_z  = as.numeric(scale(.data[[item]]))) %>%
+    filter(!is.na(Treatment_f), !is.na(RRS_z), !is.na(DV_z))
+  m <- lm(DV_z ~ RRS_z * Treatment_f, data = dat)
+  ct <- lmtest::coeftest(m, vcov = sandwich::vcovHC(m, type="HC3")) |> broom::tidy()
+  ct |> mutate(item = item) |> filter(term == "RRS_z:Treatment_fStress")
+}
+
+tab_int <- map_dfr(items, fit_int) %>%
+  transmute(Item = item, b = estimate, SE = std.error, t = statistic, p = p.value) %>%
   mutate(
-    SubjStress   = rowMeans(across(c(VAS_1, VAS_2, VAS_3)), na.rm = TRUE),
-    RRS_z        = as.numeric(scale(RRS_Score)),
-    Treatment_c  = ifelse(Treatment == 1,  0.5, -0.5),   # -0.5 = Kontrolle, +0.5 = Stress
-    SubjStress_z = as.numeric(scale(SubjStress))
-  ) %>%
-  filter(!is.na(Treatment_c), !is.na(RRS_z), !is.na(SubjStress_z))
+    p_bonf = p.adjust(p, method = "bonferroni"),
+    p_holm = p.adjust(p, method = "holm"),
+    p_bh   = p.adjust(p, method = "BH"),
+    alpha_bonf = 0.05/3
+  )
+tab_int
 
-m_h1_ec <- lm(SubjStress_z ~ RRS_z * Treatment_c, data = dat_h1_ec)
 
-car::vif(m_h1_ec, type = "predictor")              # VIF neu checken
-lmtest::coeftest(m_h1_ec, vcov = sandwich::vcovHC(m_h1_ec, type="HC3"))
 
-plot(m_h1, which = 4)                      # Cook's distance
-which.max(cooks.distance(m_h1))            # auffälligster Fall
-car::outlierTest(m_h1)                     # Bonferroni Outlier Test (vorsichtig interpretieren)
+ggplot(
+  dat_plot %>% filter(!is.na(Treatment_f)), 
+  aes(RRS_z, DV_z, color = Treatment_f)
+) +
+  geom_point(alpha = .4) +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_wrap(~ Item, nrow = 1) +
+  labs(x = "Trait-Rumination (z)", y = "VAS (z)", color = "Treatment") +
+  theme_minimal()
 
-MASS::rlm(SubjStress_z ~ RRS_z * Treatment_f, data = dat_h1) %>% summary()
+
 
 
 
@@ -587,3 +696,6 @@ MASS::rlm(SubjStress_z ~ RRS_z * Treatment_f, data = dat_h1) %>% summary()
 
 
 limesurvey <- read_excel("limesurvey_all_final.xlsx")
+
+overview <- read_excel("overview_srt.xlsx")
+
